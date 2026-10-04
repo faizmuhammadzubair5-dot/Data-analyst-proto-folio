@@ -1,0 +1,1 @@
+This folder contains simulated sales.csv. Run ../generate_sample_data.py from the project folder to regenerate it.

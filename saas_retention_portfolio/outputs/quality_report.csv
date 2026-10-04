@@ -1,0 +1,6 @@
+check,passed
+Customer IDs are unique,True
+Subscription IDs are unique,True
+Every subscription links to a customer,True
+Cancellation is on or after subscription start,True
+No start date is after the analysis date,True

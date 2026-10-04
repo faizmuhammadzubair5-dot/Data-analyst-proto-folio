@@ -1,0 +1,5 @@
+measure,value
+Input rows,2500
+Exact duplicate rows,0
+Rows missing required analysis fields,32
+Rows retained,2468

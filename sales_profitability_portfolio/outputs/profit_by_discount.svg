@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="252" viewBox="0 0 960 252">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:Arial,Helvetica,sans-serif;fill:#233044} .title{font-size:22px;font-weight:700} .label{font-size:12px} .small{font-size:10px;fill:#617084} .grid{stroke:#e6ebf0;stroke-width:1}</style>
+<text x="28" y="34" class="title">Average profit by discount band</text>
+<line x1="391.7" y1="54" x2="391.7" y2="230" stroke="#58677a" stroke-width="1.5"/>
+<text x="198" y="76" class="label" text-anchor="end">Above 30%</text>
+<rect x="234.1" y="62" width="157.6" height="20" rx="3" fill="#D95D39"/>
+<text x="227.1" y="77" class="small" text-anchor="end">$-99</text>
+<text x="198" y="110" class="label" text-anchor="end">20-30%</text>
+<rect x="363.2" y="96" width="28.5" height="20" rx="3" fill="#D95D39"/>
+<text x="356.2" y="111" class="small" text-anchor="end">$-18</text>
+<text x="198" y="144" class="label" text-anchor="end">10-20%</text>
+<rect x="391.7" y="130" width="143.4" height="20" rx="3" fill="#D95D39"/>
+<text x="542.1" y="145" class="small" text-anchor="start">$90</text>
+<text x="198" y="178" class="label" text-anchor="end">0-10%</text>
+<rect x="391.7" y="164" width="302.4" height="20" rx="3" fill="#D95D39"/>
+<text x="701.0" y="179" class="small" text-anchor="start">$190</text>
+<text x="198" y="212" class="label" text-anchor="end">No discount</text>
+<rect x="391.7" y="198" width="444.3" height="20" rx="3" fill="#D95D39"/>
+<text x="842.9" y="213" class="small" text-anchor="start">$279</text>
+</svg>

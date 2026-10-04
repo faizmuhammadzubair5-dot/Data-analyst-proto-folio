@@ -1,0 +1,4 @@
+plan,subscriptions,cancellations,cumulative_cancellation_rate
+Basic,278,79,0.2841726618705036
+Business,49,16,0.32653061224489793
+Pro,173,55,0.3179190751445087

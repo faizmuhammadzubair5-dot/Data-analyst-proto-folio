@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="422" viewBox="0 0 960 422">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:Arial,Helvetica,sans-serif;fill:#233044} .title{font-size:22px;font-weight:700} .label{font-size:12px} .small{font-size:10px;fill:#617084} .grid{stroke:#e6ebf0;stroke-width:1}</style>
+<text x="28" y="34" class="title">Top product groups by total profit</text>
+<line x1="234.1" y1="54" x2="234.1" y2="400" stroke="#58677a" stroke-width="1.5"/>
+<text x="198" y="76" class="label" text-anchor="end">Binder</text>
+<rect x="234.1" y="62" width="51.8" height="20" rx="3" fill="#176B87"/>
+<text x="292.9" y="77" class="small" text-anchor="start">$8,658</text>
+<text x="198" y="110" class="label" text-anchor="end">Storage</text>
+<rect x="234.1" y="96" width="71.8" height="20" rx="3" fill="#176B87"/>
+<text x="312.9" y="111" class="small" text-anchor="start">$12,010</text>
+<text x="198" y="144" class="label" text-anchor="end">Printer</text>
+<rect x="234.1" y="130" width="126.2" height="20" rx="3" fill="#176B87"/>
+<text x="367.2" y="145" class="small" text-anchor="start">$21,092</text>
+<text x="198" y="178" class="label" text-anchor="end">Accessories</text>
+<rect x="234.1" y="164" width="159.1" height="20" rx="3" fill="#176B87"/>
+<text x="400.2" y="179" class="small" text-anchor="start">$26,601</text>
+<text x="198" y="212" class="label" text-anchor="end">Chair</text>
+<rect x="234.1" y="198" width="175.1" height="20" rx="3" fill="#176B87"/>
+<text x="416.1" y="213" class="small" text-anchor="start">$29,269</text>
+<text x="198" y="246" class="label" text-anchor="end">Desk</text>
+<rect x="234.1" y="232" width="205.6" height="20" rx="3" fill="#176B87"/>
+<text x="446.6" y="247" class="small" text-anchor="start">$34,369</text>
+<text x="198" y="280" class="label" text-anchor="end">Table</text>
+<rect x="234.1" y="266" width="219.8" height="20" rx="3" fill="#176B87"/>
+<text x="460.9" y="281" class="small" text-anchor="start">$36,751</text>
+<text x="198" y="314" class="label" text-anchor="end">Bookcase</text>
+<rect x="234.1" y="300" width="230.8" height="20" rx="3" fill="#176B87"/>
+<text x="471.9" y="315" class="small" text-anchor="start">$38,586</text>
+<text x="198" y="348" class="label" text-anchor="end">Phone</text>
+<rect x="234.1" y="334" width="484.1" height="20" rx="3" fill="#176B87"/>
+<text x="725.2" y="349" class="small" text-anchor="start">$80,934</text>
+<text x="198" y="382" class="label" text-anchor="end">Laptop</text>
+<rect x="234.1" y="368" width="601.9" height="20" rx="3" fill="#176B87"/>
+<text x="842.9" y="383" class="small" text-anchor="start">$100,623</text>
+</svg>

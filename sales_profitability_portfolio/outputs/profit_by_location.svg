@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="422" viewBox="0 0 960 422">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<style>text{font-family:Arial,Helvetica,sans-serif;fill:#233044} .title{font-size:22px;font-weight:700} .label{font-size:12px} .small{font-size:10px;fill:#617084} .grid{stroke:#e6ebf0;stroke-width:1}</style>
+<text x="28" y="34" class="title">Top locations by total profit</text>
+<line x1="234.1" y1="54" x2="234.1" y2="400" stroke="#58677a" stroke-width="1.5"/>
+<text x="198" y="76" class="label" text-anchor="end">Georgia</text>
+<rect x="234.1" y="62" width="390.1" height="20" rx="3" fill="#176B87"/>
+<text x="631.2" y="77" class="small" text-anchor="start">$23,700</text>
+<text x="198" y="110" class="label" text-anchor="end">Ohio</text>
+<rect x="234.1" y="96" width="393.4" height="20" rx="3" fill="#176B87"/>
+<text x="634.4" y="111" class="small" text-anchor="start">$23,897</text>
+<text x="198" y="144" class="label" text-anchor="end">Illinois</text>
+<rect x="234.1" y="130" width="397.0" height="20" rx="3" fill="#176B87"/>
+<text x="638.1" y="145" class="small" text-anchor="start">$24,121</text>
+<text x="198" y="178" class="label" text-anchor="end">New Jersey</text>
+<rect x="234.1" y="164" width="433.4" height="20" rx="3" fill="#176B87"/>
+<text x="674.5" y="179" class="small" text-anchor="start">$26,330</text>
+<text x="198" y="212" class="label" text-anchor="end">Virginia</text>
+<rect x="234.1" y="198" width="433.5" height="20" rx="3" fill="#176B87"/>
+<text x="674.6" y="213" class="small" text-anchor="start">$26,338</text>
+<text x="198" y="246" class="label" text-anchor="end">New York</text>
+<rect x="234.1" y="232" width="437.7" height="20" rx="3" fill="#176B87"/>
+<text x="678.8" y="247" class="small" text-anchor="start">$26,589</text>
+<text x="198" y="280" class="label" text-anchor="end">North Carolina</text>
+<rect x="234.1" y="266" width="440.3" height="20" rx="3" fill="#176B87"/>
+<text x="681.4" y="281" class="small" text-anchor="start">$26,749</text>
+<text x="198" y="314" class="label" text-anchor="end">Nevada</text>
+<rect x="234.1" y="300" width="441.3" height="20" rx="3" fill="#176B87"/>
+<text x="682.4" y="315" class="small" text-anchor="start">$26,812</text>
+<text x="198" y="348" class="label" text-anchor="end">Florida</text>
+<rect x="234.1" y="334" width="454.5" height="20" rx="3" fill="#176B87"/>
+<text x="695.6" y="349" class="small" text-anchor="start">$27,613</text>
+<text x="198" y="382" class="label" text-anchor="end">Colorado</text>
+<rect x="234.1" y="368" width="601.9" height="20" rx="3" fill="#176B87"/>
+<text x="842.9" y="383" class="small" text-anchor="start">$36,563</text>
+</svg>
