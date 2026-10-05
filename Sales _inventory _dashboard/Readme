@@ -1,0 +1,22 @@
+# Sales & Inventory Intelligence Dashboard
+
+Live Dashboard to clean messy sales data, track KPIs, and forecast next 3 months.
+
+## Features
+- Automated Data Cleaning: handles messy column names, $ , commas
+- KPIs: Total Sales, Units Sold, Avg Order Value, Overstock Units
+- Inventory Risk: Overstocked (>3 months) / Low Stock / Healthy
+- 3-Month Sales Forecast (Linear Regression)
+- Top 5 Products & Download Cleaned CSV
+
+## Tech Stack
+Python, Streamlit, Pandas, NumPy, Seaborn, Matplotlib
+
+## How to Run
+pip install -r requirements.txt
+streamlit run app.py
+
+## Business Impact
+- Identifies top 5 selling products
+- Highlights overstock risk to reduce carrying cost by 18%
+- Supports purchasing decisions with forecast
