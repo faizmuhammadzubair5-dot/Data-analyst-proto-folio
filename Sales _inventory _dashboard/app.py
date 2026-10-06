@@ -1,5 +1,4 @@
 # %%
-get_ipython().run_line_magic("pip", "install streamlit seaborn")
 
 import streamlit as st
 import pandas as pd
