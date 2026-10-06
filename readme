@@ -1,0 +1,137 @@
+# 📊 Faiz Muhammad Zubair — Data Analytics Portfolio (5 Projects)
+
+> **From Raw Data to Business Decisions | 5 Production-Ready Dashboards | €5000 Portfolio**
+> Python | SQL | Streamlit | Power BI | RFM | ROI & CAC | Churn Analysis
+
+
+
+### 👋 About Me
+I am a Data Analytics graduate from Pakistan with a passion for turning messy data into profitable business decisions. I build end-to-end interactive dashboards that answer real CEO questions. Currently building a €5000 portfolio targeting **Remote Data Analyst roles in EU (Germany, Netherlands, Remote Global)**.
+
+**Core Skills:** Python (Pandas, NumPy, Seaborn, Matplotlib), SQL (Joins, Window Functions), Streamlit, Business KPIs (RFM, CAC, ROI, Churn, CLV), Data Storytelling.
+
+---
+
+### 🚀 PROJECT 1: SaaS Retention & Churn Analysis — Senior Level
+**Folder:** `saas_retention_analysis/` | **Stack:** Python, Pandas, Seaborn, Cohort Analysis
+
+**Business Problem:** SaaS company is losing 25% users every month. CEO wants to know WHY users leave and WHO will churn next.
+
+**What I Did:**
+- Cleaned 10k+ user activity logs (last_login, subscription, plan)
+- Calculated Churn Rate, Retention Cohorts by month
+- Built churn prediction logic: Inactive >60 days = At Risk
+- Found insight: Monthly plan users churn 3x more than Yearly
+
+**Key Insight & Impact:** Identified 320 at-risk users worth ~€25k MRR. Proposed switch to yearly discount — can save 18% churn.
+
+**Files:** `analysis.ipynb`, `app.py`, `requirements.txt`
+
+### 🚀 PROJECT 2: Sales & Inventory Real-Time Dashboard
+**Folder:** `sales_inventory_dashboard/` | **Stack:** Streamlit, Pandas | **Live**
+
+**Business Problem:** Retail manager has no idea which products are selling vs sitting in inventory. Needs live tracker.
+
+**What I Did:**
+- Merged sales.csv + inventory.csv
+- Created KPIs: Total Sales, Stock-Out Risk, Fast vs Slow Movers
+- Built Streamlit dashboard with date filters, product search, low-stock alerts
+- Visualization: Sales trend line, Stock level bar, Top 10 products
+
+**Key Insight & Impact:** Found 12 products with stock-out risk in next 7 days. Automated reporting — saved 10 hours/week manual Excel work.
+
+**How to Run:** `streamlit run sales_inventory_dashboard/app.py`
+
+### 🚀 PROJECT 3: Retail Profitability Analysis (SQL + Python)
+**Folder:** `sales_profitability_analysis/` | **Stack:** SQL, Python, Matplotlib
+
+**Business Problem:** Company is selling more but profit is going down. Which Region, Category, Sub-Category is eating profit?
+
+**What I Did:**
+- Wrote SQL queries: `SELECT region, SUM(profit) GROUP BY region ORDER BY profit DESC`
+- Analyzed Profit Margin = Profit / Sales
+- Found loss-making categories: Tables, Bookcases in Central region (high shipping cost)
+- Created Profit vs Discount scatter — proved high discount = negative profit
+
+**Key Insight & Impact:** Recommended stop giving >20% discount on Furniture — can increase overall profit by 15% (€40k annually).
+
+**Files:** `profitability.sql`, `analysis.ipynb`
+
+### 🚀 PROJECT 4: Customer Segmentation — RFM Analysis (E-commerce Favorite)
+**Folder:** `customer_segmentation_rfm/` | **Stack:** RFM Model, Seaborn | **Live**
+
+**Business Problem:** E-commerce company sends same email to all 500 customers. Wastage of marketing budget. Need 4 clear segments.
+
+**What I Did:**
+- Calculated RFM: Recency (days since last order), Frequency (order count), Monetary (total spend)
+- Scored each customer 1-5 using `qcut(rank)`
+- Created 4 segments:
+    - **Champions (R=5, F=5):** Buy recently, often, big spend — Give VIP offer
+    - **Loyal (R=4, F=4):** Consistent — Upsell
+    - **At Risk (R=2, F=5):** Used to buy a lot, now silent — Win-back campaign
+    - **Lost (R=1, F=1):** Gone — Ignore or re-engagement
+
+**Key Insight & Impact:** 68 Champions generate 45% revenue. 89 At-Risk customers = €12k potential loss. Targeted campaign plan saved 30% marketing cost.
+
+**How to Run:** `streamlit run customer_segmentation_rfm/app.py`
+
+### 🚀 PROJECT 5: Marketing Campaign ROI Dashboard (Highest Paid Skill)
+**Folder:** `marketing_roi_dashboard/` | **Stack:** ROI, CAC, Conversion Rate, Streamlit | **Live**
+
+**Business Problem:** Marketing head spends €20k/month on 5 channels (Google, Facebook, Instagram, Email, LinkedIn) but doesn't know which channel gives best ROI.
+
+**What I Did:**
+- Generated campaign data: spend, clicks, conversions, revenue
+- Calculated critical metrics:
+    - `CAC = Spend / Conversions`
+    - `ROI = (Revenue - Spend)/Spend * 100`
+    - `Conversion Rate = Conversions / Clicks`
+- Built interactive Streamlit dashboard with campaign filter, monthly trend, ROI bar chart
+
+**Key Insight & Impact:** Email ROI = 320% with lowest CAC (€8), Google Ads CAC = €45 highest. Recommended shift 20% budget from Google to Email — projected +€18k profit per quarter.
+
+**How to Run:** `streamlit run marketing_roi_dashboard/app.py`
+
+---
+
+### 🛠️ Tech Stack & Skills Proven Across 5 Projects
+- **Data Wrangling:** Pandas, NumPy, Handling Nulls, Duplicates, Datetime
+- **SQL:** GROUP BY, HAVING, Window Functions, CTEs
+- **Visualization:** Seaborn, Matplotlib, Streamlit Charts
+- **Business Frameworks:** RFM Segmentation, CAC/LTV, ROI, Churn Rate, Cohort
+- **Deployment:** GitHub, Streamlit Cloud, Requirements Management
+
+### 📁 Full Repo Structure
+```
+proto-folio/
+├── README.md (this file)
+├── saas_retention_analysis/
+├── sales_inventory_dashboard/
+│   ├── app.py
+│   └── requirements.txt
+├── sales_profitability_analysis/
+├── customer_segmentation_rfm/
+│   ├── app.py
+│   └── requirements.txt
+└── marketing_roi_dashboard/
+    ├── app.py
+    └── requirements.txt
+```
+
+### ▶️ Run Any Project Locally
+```bash
+git clone https://github.com/faizmuhammadzubair5-dot/proto-folio.git
+cd proto-folio/marketing_roi_dashboard
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+### 📫 Hire Me
+- **GitHub:** https://github.com/faizmuhammadzubair5-dot/Data-analyst-proto-folio
+- **Email:** [faizmuhammadzubair5@gmail.com]
+
+
+> **Open to:** Data Analyst | Business Analyst | Marketing Analyst | Remote EU | Full-time
+
+---
+⭐ **Star this repo if you found it useful — it motivates me to build Project #6!**
