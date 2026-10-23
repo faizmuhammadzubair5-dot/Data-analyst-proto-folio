@@ -133,7 +133,7 @@ streamlit run app.py
 ```
 
 ### ☁️ Streamlit Community Cloud entrypoints
-Deploy each folder as a separate app from the `main` branch. Use the following entrypoint and install file for each deployment:
+Each project below runs as its own Streamlit Community Cloud app from the `main` branch:
 
 | Project | Live app | Entrypoint | Dependencies |
 | --- | --- | --- | --- |
