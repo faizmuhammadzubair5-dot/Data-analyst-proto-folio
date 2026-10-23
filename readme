@@ -13,7 +13,7 @@ I am a Data Analytics graduate from Pakistan with a passion for turning messy da
 ---
 
 ### 🚀 PROJECT 1: SaaS Retention & Churn Analysis — Senior Level
-**Folder:** `saas_retention_analysis/` | **Stack:** Python, Pandas, Seaborn, Cohort Analysis
+**Folder:** `saas_retention_portfolio/` | **Stack:** Python, Pandas, NumPy, Cohort Analysis, Streamlit
 
 **Business Problem:** SaaS company is losing 25% users every month. CEO wants to know WHY users leave and WHO will churn next.
 
@@ -25,10 +25,10 @@ I am a Data Analytics graduate from Pakistan with a passion for turning messy da
 
 **Key Insight & Impact:** Identified 320 at-risk users worth ~€25k MRR. Proposed switch to yearly discount — can save 18% churn.
 
-**Files:** `analysis.ipynb`, `app.py`, `requirements.txt`
+**Files:** `saas_retention_analysis.ipynb`, `app.py`, `requirements.txt`
 
 ### 🚀 PROJECT 2: Sales & Inventory Real-Time Dashboard
-**Folder:** `sales_inventory_dashboard/` | **Stack:** Streamlit, Pandas | **Live**
+**Folder:** `sales_inventory_dashboard/` | **Stack:** Streamlit, Pandas
 
 **Business Problem:** Retail manager has no idea which products are selling vs sitting in inventory. Needs live tracker.
 
@@ -43,7 +43,7 @@ I am a Data Analytics graduate from Pakistan with a passion for turning messy da
 **How to Run:** `streamlit run sales_inventory_dashboard/app.py`
 
 ### 🚀 PROJECT 3: Retail Profitability Analysis (SQL + Python)
-**Folder:** `sales_profitability_analysis/` | **Stack:** SQL, Python, Matplotlib
+**Folder:** `sales_profitability_portfolio/` | **Stack:** SQL, Python, Matplotlib, Streamlit
 
 **Business Problem:** Company is selling more but profit is going down. Which Region, Category, Sub-Category is eating profit?
 
@@ -55,10 +55,10 @@ I am a Data Analytics graduate from Pakistan with a passion for turning messy da
 
 **Key Insight & Impact:** Recommended stop giving >20% discount on Furniture — can increase overall profit by 15% (€40k annually).
 
-**Files:** `profitability.sql`, `analysis.ipynb`
+**Files:** `outputs/sales_analysis.sql`, `sales_profitability_analysis.ipynb`, `app.py`
 
 ### 🚀 PROJECT 4: Customer Segmentation — RFM Analysis (E-commerce Favorite)
-**Folder:** `customer_segmentation_rfm/` | **Stack:** RFM Model, Seaborn | **Live**
+**Folder:** `customers_segmentation_rfm/` | **Stack:** RFM Model, Seaborn, Streamlit
 
 **Business Problem:** E-commerce company sends same email to all 500 customers. Wastage of marketing budget. Need 4 clear segments.
 
@@ -73,7 +73,7 @@ I am a Data Analytics graduate from Pakistan with a passion for turning messy da
 
 **Key Insight & Impact:** 68 Champions generate 45% revenue. 89 At-Risk customers = €12k potential loss. Targeted campaign plan saved 30% marketing cost.
 
-**How to Run:** `streamlit run customer_segmentation_rfm/app.py`
+**How to Run:** `streamlit run customers_segmentation_rfm/app.py`
 
 ### 🚀 PROJECT 5: Marketing Campaign ROI Dashboard (Highest Paid Skill)
 **Folder:** `marketing_roi_dashboard/` | **Stack:** ROI, CAC, Conversion Rate, Streamlit | **Live**
@@ -105,12 +105,18 @@ I am a Data Analytics graduate from Pakistan with a passion for turning messy da
 ```
 proto-folio/
 ├── README.md (this file)
-├── saas_retention_analysis/
+├── saas_retention_portfolio/
+│   ├── app.py
+│   ├── requirements.txt
+│   └── saas_retention_analysis.ipynb
 ├── sales_inventory_dashboard/
 │   ├── app.py
 │   └── requirements.txt
-├── sales_profitability_analysis/
-├── customer_segmentation_rfm/
+├── sales_profitability_portfolio/
+│   ├── app.py
+│   ├── requirements.txt
+│   └── sales_profitability_analysis.ipynb
+├── customers_segmentation_rfm/
 │   ├── app.py
 │   └── requirements.txt
 └── marketing_roi_dashboard/
@@ -120,11 +126,24 @@ proto-folio/
 
 ### ▶️ Run Any Project Locally
 ```bash
-git clone https://github.com/faizmuhammadzubair5-dot/proto-folio.git
-cd proto-folio/marketing_roi_dashboard
+git clone https://github.com/faizmuhammadzubair5-dot/Data-analyst-proto-folio.git
+cd Data-analyst-proto-folio/marketing_roi_dashboard
 pip install -r requirements.txt
 streamlit run app.py
 ```
+
+### ☁️ Streamlit Community Cloud entrypoints
+Deploy each folder as a separate app from the `main` branch. Use the following entrypoint and install file for each deployment:
+
+| Project | Live app | Entrypoint | Dependencies |
+| --- | --- | --- | --- |
+| SaaS retention and churn | [Open app](https://faiz-saas-retention.streamlit.app/) | `saas_retention_portfolio/app.py` | `saas_retention_portfolio/requirements.txt` |
+| Sales and inventory | [Open app](https://faiz-sales-inventory.streamlit.app/) | `sales_inventory_dashboard/app.py` | `sales_inventory_dashboard/requirements.txt` |
+| Retail profitability | [Open app](https://faiz-sales-profitability.streamlit.app/) | `sales_profitability_portfolio/app.py` | `sales_profitability_portfolio/requirements.txt` |
+| Customer segmentation (RFM) | [Open app](https://data-analyst-proto-folio-1.streamlit.app/) | `customers_segmentation_rfm/app.py` | `customers_segmentation_rfm/requirements.txt` |
+| Marketing campaign ROI | [Open app](https://faiz-marketing-roi.streamlit.app/) | `marketing_roi_dashboard/app.py` | `marketing_roi_dashboard/requirements.txt` |
+
+All dashboards include simulated example data. Their results are demonstrations, not actual company outcomes.
 
 ### 📫 Hire Me
 - **GitHub:** https://github.com/faizmuhammadzubair5-dot/Data-analyst-proto-folio
