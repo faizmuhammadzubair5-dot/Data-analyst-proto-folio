@@ -27,7 +27,9 @@ def generate_sample() -> pd.DataFrame:
                     "inventory": int(rng.integers(20, 250)),
                 }
             )
-    return pd.DataFrame(rows)
+    frame = pd.DataFrame(rows)
+    frame["month"] = frame["date"].dt.to_period("M").dt.to_timestamp()
+    return frame
 
 
 def clean_data(file) -> pd.DataFrame:
