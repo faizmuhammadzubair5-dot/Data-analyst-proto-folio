@@ -21,8 +21,18 @@ These are simulated values. Plan differences are descriptive and do not establis
 
 ![Customer cohort retention](outputs/cohort_retention.svg)
 
-## Run
-Install the packages in requirements.txt, open saas_retention_analysis.ipynb from this folder, and run all cells. Tables and PNG charts are saved in outputs/.
+## Run the dashboard
+From this folder, install `requirements.txt` and run:
+
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+The dashboard reads the included monthly and cohort summary files in `outputs/`.
+
+## Run the analysis notebook
+Install the packages in `requirements.txt`, then open `saas_retention_analysis.ipynb` and run all cells. Tables and charts are saved in `outputs/`.
 
 ## Limitations
 Records are synthetic, not real customer or company data. The sample cannot support real business conclusions or causal claims.
