@@ -1,29 +1,40 @@
-import streamlit as st
-import pandas as pd
-import numpy as np
-import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import streamlit as st
 
-st.set_page_config(page_title="Sales & Inventory Dashboard", layout="wide")
-
+st.set_page_config(page_title="Sales & Inventory", layout="wide")
 st.title("Sales and Inventory Dashboard")
-st.caption("Clean messy sales data, explore performance, and forecast the next 3 months.")
-
-uploaded_file = st.file_uploader("Upload sales CSV", type=["csv"])
+st.caption("Track sales, demand, stock coverage, and a simple three-month forecast.")
 
 
-def clean_data(file):
-    df = pd.read_csv(file)
+@st.cache_data
+def generate_sample() -> pd.DataFrame:
+    rng = np.random.default_rng(42)
+    dates = pd.date_range("2025-01-01", periods=12, freq="MS")
+    products = ["Laptop", "Phone", "Tablet", "Headphones", "Monitor"]
+    rows = []
+    for date in dates:
+        for product in products:
+            quantity = int(rng.integers(10, 80))
+            price = float(rng.integers(25, 500))
+            rows.append(
+                {
+                    "date": date,
+                    "product": product,
+                    "quantity": quantity,
+                    "sales": round(quantity * price, 2),
+                    "inventory": int(rng.integers(20, 250)),
+                }
+            )
+    return pd.DataFrame(rows)
 
-    # Standardize column names
-    df.columns = (
-        df.columns.str.strip()
-        .str.lower()
-        .str.replace(" ", "_")
-        .str.replace("-", "_")
+
+def clean_data(file) -> pd.DataFrame:
+    frame = pd.read_csv(file)
+    frame.columns = (
+        frame.columns.str.strip().str.lower().str.replace(" ", "_").str.replace("-", "_")
     )
-
-    # Rename common messy column names
     aliases = {
         "product_name": "product",
         "item": "product",
@@ -37,352 +48,146 @@ def clean_data(file):
         "stock": "inventory",
         "stock_level": "inventory",
     }
-
-    df = df.rename(columns=aliases)
-
-    required_columns = ["date", "product", "quantity", "sales", "inventory"]
-    missing = [col for col in required_columns if col not in df.columns]
-
+    frame = frame.rename(columns=aliases)
+    required = ["date", "product", "quantity", "sales", "inventory"]
+    missing = [column for column in required if column not in frame.columns]
     if missing:
-        st.error(f"Missing required columns: {missing}")
-        st.info(
-            "Required columns: date, product, quantity, sales, inventory"
-        )
-        st.stop()
+        raise ValueError("Missing required columns: " + ", ".join(missing))
 
-    df["date"] = pd.to_datetime(df["date"], errors="coerce")
-    df["product"] = df["product"].astype(str).str.strip()
-
-    for col in ["quantity", "sales", "inventory"]:
-        df[col] = (
-            df[col]
-            .astype(str)
+    frame["date"] = pd.to_datetime(frame["date"], errors="coerce")
+    frame["product"] = frame["product"].astype("string").str.strip()
+    for column in ["quantity", "sales", "inventory"]:
+        frame[column] = (
+            frame[column]
+            .astype("string")
             .str.replace("$", "", regex=False)
             .str.replace(",", "", regex=False)
             .str.strip()
         )
-        df[col] = pd.to_numeric(df[col], errors="coerce")
+        frame[column] = pd.to_numeric(frame[column], errors="coerce")
 
-    df = df.dropna(subset=["date", "product", "quantity", "sales"])
-    df = df[df["quantity"] >= 0]
-    df = df[df["sales"] >= 0]
-    df["inventory"] = df["inventory"].fillna(0)
+    frame = frame.dropna(subset=["date", "product", "quantity", "sales"])
+    frame = frame[(frame["product"] != "") & (frame["quantity"] >= 0) & (frame["sales"] >= 0)]
+    frame["inventory"] = frame["inventory"].fillna(0).clip(lower=0)
+    if frame.empty:
+        raise ValueError("No valid sales rows were found in the uploaded CSV.")
+    frame["month"] = frame["date"].dt.to_period("M").dt.to_timestamp()
+    return frame
 
-    df["month"] = df["date"].dt.to_period("M").dt.to_timestamp()
 
-    return df
-
-
-if uploaded_file:
-    df = clean_data(uploaded_file)
-
-    st.sidebar.header("Filters")
-
-    products = st.sidebar.multiselect(
-        "Select products",
-        sorted(df["product"].unique()),
-        default=sorted(df["product"].unique()),
-    )
-
-    filtered_df = df[df["product"].isin(products)]
-
-    if filtered_df.empty:
-        st.warning("No data available for the selected products.")
+uploaded = st.sidebar.file_uploader(
+    "Upload sales CSV",
+    type=["csv"],
+    help="Required columns: date, product, quantity, sales, inventory",
+)
+if uploaded:
+    try:
+        df = clean_data(uploaded)
+    except (ValueError, pd.errors.ParserError, UnicodeDecodeError) as exc:
+        st.error(str(exc))
         st.stop()
-
-    total_sales = filtered_df["sales"].sum()
-    total_units = filtered_df["quantity"].sum()
-    average_order_value = (
-        filtered_df["sales"].sum() / len(filtered_df)
-        if len(filtered_df) > 0
-        else 0
-    )
-
-    monthly_demand = filtered_df.groupby("month")["quantity"].sum()
-    average_monthly_demand = monthly_demand.mean()
-    current_inventory = filtered_df["inventory"].sum()
-
-    # Simple overstock rule
-    overstock_limit = average_monthly_demand * 1.5
-    overstock_units = max(current_inventory - overstock_limit, 0)
-
-    col1, col2, col3, col4 = st.columns(4)
-
-    col1.metric("Total Sales", f"${total_sales:,.2f}")
-    col2.metric("Units Sold", f"{total_units:,.0f}")
-    col3.metric("Average Order Value", f"${average_order_value:,.2f}")
-    col4.metric("Overstock Units", f"{overstock_units:,.0f}")
-
-    st.subheader("Sales and Inventory Overview")
-
-    left, right = st.columns(2)
-
-    with left:
-        monthly_sales = (
-            filtered_df.groupby("month", as_index=False)["sales"].sum()
-        )
-
-        fig, ax = plt.subplots(figsize=(9, 4))
-        sns.lineplot(
-            data=monthly_sales,
-            x="month",
-            y="sales",
-            marker="o",
-            ax=ax,
-        )
-        ax.set_title("Monthly Sales")
-        ax.set_xlabel("Month")
-        ax.set_ylabel("Sales")
-        plt.xticks(rotation=45)
-        st.pyplot(fig)
-
-    with right:
-        product_sales = (
-            filtered_df.groupby("product", as_index=False)["sales"]
-            .sum()
-            .sort_values("sales", ascending=False)
-            .head(10)
-        )
-
-        fig, ax = plt.subplots(figsize=(9, 4))
-        sns.barplot(
-            data=product_sales,
-            x="sales",
-            y="product",
-            palette="viridis",
-            ax=ax,
-        )
-        ax.set_title("Top Products by Sales")
-        ax.set_xlabel("Sales")
-        ax.set_ylabel("Product")
-        st.pyplot(fig)
-
-    st.subheader("Top 5 Selling Products")
-
-    top_5 = (
-        filtered_df.groupby("product", as_index=False)
-        .agg(
-            sales=("sales", "sum"),
-            units_sold=("quantity", "sum"),
-            inventory=("inventory", "sum"),
-        )
-        .sort_values("sales", ascending=False)
-        .head(5)
-    )
-
-    st.dataframe(top_5, use_container_width=True)
-
-    st.subheader("Inventory Risk Analysis")
-
-    inventory_table = (
-        filtered_df.groupby("product", as_index=False)
-        .agg(
-            units_sold=("quantity", "sum"),
-            inventory=("inventory", "sum"),
-        )
-    )
-
-    inventory_table["average_monthly_demand"] = (
-        inventory_table["units_sold"]
-        / max(filtered_df["month"].nunique(), 1)
-    )
-
-    inventory_table["months_of_stock"] = (
-        inventory_table["inventory"]
-        / inventory_table["average_monthly_demand"].replace(0, np.nan)
-    )
-
-    inventory_table["status"] = np.select(
-        [
-            inventory_table["months_of_stock"] > 3,
-            inventory_table["months_of_stock"] < 1,
-        ],
-        ["Overstocked", "Low Stock"],
-        default="Healthy",
-    )
-
-    st.dataframe(inventory_table, use_container_width=True)
-
-    st.subheader("Three-Month Sales Forecast")
-
-    monthly_sales = (
-        filtered_df.groupby("month")["sales"]
-        .sum()
-        .sort_index()
-    )
-
-    if len(monthly_sales) >= 2:
-        x = np.arange(len(monthly_sales))
-        y = monthly_sales.values
-
-        slope, intercept = np.polyfit(x, y, 1)
-
-        future_x = np.arange(len(monthly_sales), len(monthly_sales) + 3)
-        forecast_values = np.maximum(
-            slope * future_x + intercept,
-            0,
-        )
-
-        future_dates = pd.date_range(
-            monthly_sales.index.max() + pd.offsets.MonthBegin(1),
-            periods=3,
-            freq="MS",
-        )
-
-        forecast = pd.DataFrame(
-            {
-                "month": future_dates,
-                "forecast_sales": forecast_values,
-            }
-        )
-
-        fig, ax = plt.subplots(figsize=(10, 4))
-        ax.plot(
-            monthly_sales.index,
-            monthly_sales.values,
-            marker="o",
-            label="Historical Sales",
-        )
-        ax.plot(
-            forecast["month"],
-            forecast["forecast_sales"],
-            marker="o",
-            linestyle="--",
-            label="Forecast",
-        )
-        ax.set_title("Next 3 Months Sales Forecast")
-        ax.set_ylabel("Sales")
-        ax.legend()
-        plt.xticks(rotation=45)
-        st.pyplot(fig)
-
-        st.dataframe(forecast, use_container_width=True)
-    else:
-        st.warning("At least two months of data are required for forecasting.")
-
-    st.subheader("Business Summary")
-
-    st.markdown(
-        """
-        **Project impact statement:**
-
-        - Identified the top 5 selling products.
-        - Highlighted products with more than three months of inventory.
-        - Created a three-month sales forecast to support purchasing decisions.
-        - Overstock reduction of **18%** should only be reported when it is
-          verified using before-and-after inventory data.
-        """
-    )
-
-    st.download_button(
-        "Download Cleaned Data",
-        filtered_df.to_csv(index=False),
-        "cleaned_sales_data.csv",
-        "text/csv",
-    )
-
+    st.sidebar.caption("Showing results from your uploaded file.")
 else:
-    st.info(
-        "Upload a CSV file with these columns: "
-        "`date`, `product`, `quantity`, `sales`, and `inventory`."
+    df = generate_sample()
+    st.info("Showing reproducible sample data. Upload a CSV to explore your own inventory.")
+
+products = sorted(df["product"].dropna().unique().tolist())
+selected_products = st.sidebar.multiselect("Products", products, default=products)
+filtered = df[df["product"].isin(selected_products)].copy()
+if filtered.empty:
+    st.warning("Select at least one product to view the dashboard.")
+    st.stop()
+
+months_count = max(filtered["month"].nunique(), 1)
+monthly_demand = filtered.groupby("product")["quantity"].sum() / months_count
+latest_stock = (
+    filtered.sort_values("date")
+    .groupby("product", as_index=False)
+    .tail(1)[["product", "inventory"]]
+)
+stock = latest_stock.set_index("product")["inventory"]
+coverage = stock.div(monthly_demand.replace(0, np.nan))
+low_stock_products = int((coverage < 1).sum())
+
+col1, col2, col3, col4 = st.columns(4)
+col1.metric("Sales", f"${filtered['sales'].sum():,.0f}")
+col2.metric("Units sold", f"{filtered['quantity'].sum():,.0f}")
+col3.metric("Average sale", f"${filtered['sales'].mean():,.2f}")
+col4.metric("Products under 1 month of stock", f"{low_stock_products:,}")
+
+left, right = st.columns(2)
+monthly_sales = filtered.groupby("month", as_index=False)["sales"].sum()
+with left:
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.plot(monthly_sales["month"], monthly_sales["sales"], marker="o", color="#2563eb")
+    ax.set(title="Monthly sales", xlabel="Month", ylabel="Sales ($)")
+    ax.tick_params(axis="x", rotation=35)
+    fig.tight_layout()
+    st.pyplot(fig, width="stretch")
+    plt.close(fig)
+
+with right:
+    product_sales = (
+        filtered.groupby("product", as_index=False)["sales"]
+        .sum()
+        .sort_values("sales", ascending=True)
+        .tail(10)
     )
+    fig, ax = plt.subplots(figsize=(8, 4))
+    ax.barh(product_sales["product"], product_sales["sales"], color="#0f766e")
+    ax.set(title="Top products by sales", xlabel="Sales ($)", ylabel="")
+    fig.tight_layout()
+    st.pyplot(fig, width="stretch")
+    plt.close(fig)
 
-# %%
-from io import StringIO
-
-rng = np.random.default_rng(42)
-
-dates = pd.date_range("2024-01-01", periods=12, freq="MS")
-products = ["Laptop", "Phone", "Tablet", "Headphones", "Monitor"]
-
-sample_rows = []
-
-for date in dates:
-    for product in products:
-        quantity = int(rng.integers(10, 80))
-        price = float(rng.integers(25, 500))
-        inventory = int(rng.integers(20, 250))
-
-        sample_rows.append(
-            {
-                "date": date.strftime("%Y-%m-%d"),
-                "product": product,
-                "quantity": quantity,
-                "sales": round(quantity * price, 2),
-                "inventory": inventory,
-            }
-        )
-
-sample_data = pd.DataFrame(sample_rows)
-
-# Convert the generated data into an in-memory CSV file
-uploaded_file = StringIO(sample_data.to_csv(index=False))
-
-# Clean the generated data using the existing function
-df = clean_data(uploaded_file)
-
-df.head()
-
-# %%
-# Notebook version of the Sales and Inventory Dashboard
-
-total_sales = df["sales"].sum()
-total_units = df["quantity"].sum()
-average_order_value = df["sales"].mean()
-current_inventory = df["inventory"].sum()
-
-display(pd.DataFrame({
-    "Metric": ["Total Sales", "Units Sold", "Average Order Value", "Inventory"],
-    "Value": [
-        f"${total_sales:,.2f}",
-        f"{total_units:,.0f}",
-        f"${average_order_value:,.2f}",
-        f"{current_inventory:,.0f}",
-    ],
-}))
-
-monthly_sales = df.groupby("month", as_index=False)["sales"].sum()
-product_sales = (
-    df.groupby("product", as_index=False)["sales"]
-    .sum()
-    .sort_values("sales", ascending=False)
+inventory_table = latest_stock.merge(
+    monthly_demand.rename("average_monthly_demand"),
+    left_on="product",
+    right_index=True,
+    how="left",
+)
+inventory_table["months_of_stock"] = inventory_table["inventory"].div(
+    inventory_table["average_monthly_demand"].replace(0, np.nan)
+)
+inventory_table["status"] = np.select(
+    [inventory_table["months_of_stock"] < 1, inventory_table["months_of_stock"] > 3],
+    ["Low stock", "Overstocked"],
+    default="Healthy",
 )
 
-fig, axes = plt.subplots(1, 2, figsize=(16, 5))
+st.subheader("Inventory coverage")
+st.dataframe(inventory_table.sort_values("months_of_stock"), hide_index=True, width="stretch")
 
-sns.lineplot(
-    data=monthly_sales,
-    x="month",
-    y="sales",
-    marker="o",
-    ax=axes[0],
-)
-axes[0].set_title("Monthly Sales")
-axes[0].tick_params(axis="x", rotation=45)
-
-sns.barplot(
-    data=product_sales,
-    x="sales",
-    y="product",
-    hue="product",
-    palette="viridis",
-    legend=False,
-    ax=axes[1],
-)
-axes[1].set_title("Sales by Product")
-
-plt.tight_layout()
-plt.show()
-
-top_5 = (
-    df.groupby("product", as_index=False)
-    .agg(
-        sales=("sales", "sum"),
-        units_sold=("quantity", "sum"),
-        inventory=("inventory", "sum"),
+st.subheader("Three-month sales forecast")
+monthly_series = monthly_sales.set_index("month")["sales"].sort_index()
+if len(monthly_series) >= 2:
+    x = np.arange(len(monthly_series))
+    slope, intercept = np.polyfit(x, monthly_series.to_numpy(), 1)
+    future_x = np.arange(len(monthly_series), len(monthly_series) + 3)
+    forecast = pd.DataFrame(
+        {
+            "month": pd.date_range(
+                monthly_series.index.max() + pd.offsets.MonthBegin(1), periods=3, freq="MS"
+            ),
+            "forecast_sales": np.maximum(slope * future_x + intercept, 0),
+        }
     )
-    .sort_values("sales", ascending=False)
-    .head(5)
-)
+    fig, ax = plt.subplots(figsize=(10, 4))
+    ax.plot(monthly_series.index, monthly_series.values, marker="o", label="History")
+    ax.plot(forecast["month"], forecast["forecast_sales"], marker="o", linestyle="--", label="Forecast")
+    ax.set(ylabel="Sales ($)")
+    ax.legend()
+    ax.tick_params(axis="x", rotation=35)
+    fig.tight_layout()
+    st.pyplot(fig, width="stretch")
+    plt.close(fig)
+    st.dataframe(forecast, hide_index=True, width="stretch")
+else:
+    st.info("At least two months of sales are needed to calculate a forecast.")
 
-display(top_5)
+st.download_button(
+    "Download cleaned sales data",
+    filtered.to_csv(index=False).encode("utf-8"),
+    "cleaned_sales_data.csv",
+    "text/csv",
+)
