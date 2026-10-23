@@ -24,8 +24,18 @@ The sample generator intentionally makes high discounts reduce the profit margin
 
 ![Average profit by discount band](outputs/profit_by_discount.svg)
 
-## Run
-Install packages in requirements.txt. From this folder, run generate_sample_data.py if you want to rebuild data/sales.csv, then run all cells in sales_profitability_analysis.ipynb. Tables and PNG charts are saved in outputs/.
+## Run the dashboard
+From this folder, install `requirements.txt` and run:
+
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+The dashboard filters the included `data/sales.csv` sample.
+
+## Run the analysis notebook
+Install the packages in `requirements.txt`. Run `generate_sample_data.py` if you want to rebuild `data/sales.csv`, then open `sales_profitability_analysis.ipynb` and run all cells. Tables and charts are saved in `outputs/`.
 
 ## Limitations
 The dataset is synthetic. Line-item counts are not order counts. Discount-profit patterns are descriptive and do not prove causation.
